@@ -1,10 +1,13 @@
-const loginReducer = (state = [], action) =>{
+const loginReducer = (state = {}, action) =>{
     switch(action.type){
-        case 'LOGIN' : {
+        case 'LOGIN_ERROR' : {
             return {...action.payload}
         }
+        case 'LOGIN_TOKEN' : {
+           return {...action.payload}
+        }
         default : { 
-            return [...state]
+            return {...state}
         }
     }
 }

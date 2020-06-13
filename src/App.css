@@ -5,11 +5,8 @@
     padding: 10px; 
     max-width: 1000px;
     background-color: white;
+
   }
 .imgage {
-  background-color : red;
   float: left;
-  padding: 5px;
-  width: 200px;
-  height: 400px;
 }

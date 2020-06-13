@@ -5,6 +5,7 @@ import {startpostRegister} from '../actions/registerAction'
 import {startGetLocation} from '../actions/locationAction'
 import {AiOutlineEye,AiFillEye} from "react-icons/ai"
 import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
+import logo from '../images/rsz_login.png'
 
  class Register extends Component {
      constructor(){
@@ -30,7 +31,12 @@ import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
         }
         console.log(registerdata);
         this.setState({username:'',email:'',password:"",businessname:'',address:''})
-        this.props.dispatch(startpostRegister(registerdata))
+        //redirect
+        const redirect = () =>{
+            return this.props.history.push('/login')
+        }
+        this.props.dispatch(startpostRegister(registerdata , redirect))
+        //this.props.dispatch(startpostRegister(registerdata , this.props))
     }
      handleChange=(e)=>{
          this.setState({[e.target.name] : e.target.value})
@@ -45,6 +51,7 @@ import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
      }
      handleLocate=(e)=>{
         e.preventDefault()
+        //this.refs.btn.setAttribute("disabled", "disabled")
          this.props.dispatch(startGetLocation())
          this.setState({address:this.props.location})
          this.setState((prev)=>{
@@ -57,7 +64,7 @@ import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
         return (
             <div className='container'>
             <div className='row'>
-            <div className='col-sm-8'><div className='pic'></div></div>
+            <div className='col-sm-8'><div className='imgage' style={{float:'right'}}><img src={logo} /></div></div>
             <div className='col-sm-4'><br/>
             <h1 align='center'>Welcome</h1>
             <h2 align='center'>Register</h2><br/>
@@ -96,7 +103,7 @@ import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
                 name='password'
                 value={this.state.password}
                 onChange={this.handleChange}
-                />{this.state.toggleShow ? <AiFillEye onClick={this.handleShow}/> : <AiOutlineEye onClick={this.handleShow}/>}
+                />{this.state.toggleShow ? <AiFillEye size={24} color='black' onClick={this.handleShow}/> : <AiOutlineEye size={24} color='black' onClick={this.handleShow}/>}
                 { 
                     this.props.register.errors && this.props.register.errors.password &&
                     (<small style={{color : 'red'}}>*{this.props.register.errors.password.message}</small>)
@@ -122,7 +129,7 @@ import{ TiLocationOutline,TiLocation} from 'react-icons/ti'
                 name='address'
                 value={this.props.location ? this.props.location: this.state.address}
                 onChange={this.handleChange}
-                />{this.state.locationadd ? <TiLocation onClick={this.handleLocate}/> : <TiLocationOutline onClick={this.handleLocate}/>}
+                />{this.state.locationadd ? <TiLocation size={24} color='black' onClick={this.handleLocate}/> : <TiLocationOutline size={24} color='black' onClick={this.handleLocate}/>}
                 { 
                     this.props.register.errors && this.props.register.errors.address &&
                     (<small style={{color : 'red'}}>*{this.props.register.errors.address.message}</small>)

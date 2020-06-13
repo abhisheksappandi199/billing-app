@@ -23,7 +23,11 @@ import {AiOutlineEye,AiFillEye} from "react-icons/ai"
         }
         console.log(logindata);
         this.setState({email:'' , password:''})
-        this.props.dispatch(startPostLogin(logindata))
+        //redirect
+        const redirect = () =>{
+            return this.props.history.push('/')
+        }
+        this.props.dispatch(startPostLogin(logindata,redirect))
 
      }
      handleChange=(e)=>{
@@ -41,7 +45,7 @@ import {AiOutlineEye,AiFillEye} from "react-icons/ai"
         return (
             <div className='container'>
             <div className='row'>
-            <div className='col-sm-8'><div className='imgage'><img src={logo} /></div></div>
+            <div className='col-sm-8'><div className='imgage' style={{float:'right'}}><img src={logo} /></div></div>
             <div className='col-sm-4'><br/><br/>
             <h1 align='center'>Login</h1><br/><br/>
             
@@ -65,7 +69,7 @@ import {AiOutlineEye,AiFillEye} from "react-icons/ai"
                 name='password'
                 value={this.state.password}
                 onChange={this.handleChange}
-                />{this.state.toggleShow ? <AiFillEye onClick={this.handleShow}/> : <AiOutlineEye onClick={this.handleShow}/>}
+                />{this.state.toggleShow ? <AiFillEye size={24} color='black' onClick={this.handleShow}/> : <AiOutlineEye size={24} color='black' onClick={this.handleShow}/>}
                 <small><Link to='/register'>Forget password?</Link></small>
                 <br/><br/>
                 { 
