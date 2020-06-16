@@ -5,6 +5,7 @@ import {startGetbill,startAddBill,startRemoveBill} from '../actions/billAction'
 import {AiFillDelete,AiFillEye} from 'react-icons/ai'
 import { MdModeEdit} from 'react-icons/md'
 import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable';
 
 class Bills extends Component {
     constructor(props){
@@ -15,7 +16,7 @@ class Bills extends Component {
             date:'',
             customer:'select',
             product:'select',
-            lineItems:[],
+            lineItems:[{product :"" , quantity:""}],
             user:'',
             createdAt:'',
             updatedAt:'',
@@ -47,13 +48,13 @@ class Bills extends Component {
     }
     handleSubmit=(e)=>{
         e.preventDefault()
-        this.state.lineItems.push({"product" : this.state.product.value , "quantity": this.state.quantity})
+        //this.state.lineItems.push({"product" : this.state.product.value , "quantity": this.state.quantity})
         const formdata ={
             customer : this.state.customer.value,
             date : this.state.date,
             lineItems : this.state.lineItems
         }
-       console.log(this.state.customer.label);
+       console.log(formdata);
         //this.setState({name:'',mobile:'',email:''})
         this.props.dispatch(startAddBill(formdata))
     }
@@ -62,7 +63,7 @@ class Bills extends Component {
     }
     handleEdit1=(obj)=>{
         this.handleClose1()
-        console.log(obj.customer);
+        console.log(obj);
         
         this.setState({
             id:obj._id,
@@ -73,7 +74,7 @@ class Bills extends Component {
             createdAt:obj.createdAt,
             updatedAt:obj.updatedAt,
             total:obj.total,
-            quantity:obj.lineItems[0].quantity
+            quantity:obj.lineItems.quantity
         })
     }
     handleClose1 =() =>{
@@ -85,14 +86,33 @@ class Bills extends Component {
     }
    
     handlecustomer=(customer)=>{
-        const cus = customer.value
         this.setState({customer})
     }
-    handleproduct=(product)=>{
-        this.setState({product})
+    handleproduct=(pppp)=>{
+        this.setState(prevState => ({
+            lineItems: prevState.lineItems.map(
+            obj => Object.assign(obj, { product : pppp.value }) 
+          )
+        }));
+    }
+    handlequantity=(pppp)=>{
+        this.setState(prevState => ({
+            lineItems: prevState.lineItems.map(
+            obj => Object.assign(obj, { quantity : pppp.value }) 
+          )
+        }));
     }
     handleAdditem=(e)=>{
-
+        e.preventDefault()
+        this.setState((prevState) => ({
+            lineItems: [...prevState.lineItems, {product:"", quantity:""}]
+          }))
+    }
+    handleRemovitem=(e)=>{
+        e.preventDefault()
+        this.setState((prevState) => ({
+            lineItems: prevState.lineItems.filter(e => e.product == '')
+          }))
     }
     render() {
         return (
@@ -133,31 +153,43 @@ class Bills extends Component {
                                 /><br/>
 
                                 <label align='center' className='badge badge-secondary'>LINEITEMS</label><br/>
-                                <button onClick={this.handleAdditem}>add</button>
-                                <label className="badge badge-primary">product</label>
-                                <Select value={this.state.product} onChange={this.handleproduct} 
-                                options={this.props.product.map(e =>{
-                                        return {value: e._id, label: e.name}
-                                    })}
-                                />  
-                            
-                                
-                                <label className="badge badge-primary">quantity</label>
-                                <select className='form-control'  value={this.state.quantity} onChange={this.handleChange} name='quantity'> 
-                                    <option >select</option>
-                                    {
-                                        this.state.arr.map(e => {
-                                            return (
-                                                <option value={e} key={e}>{e}</option>
-                                            )
-                                        })
-                                    }
-                                </select><br/>
+                                <button className='btn btn-success btn-sm' onClick={this.handleAdditem}>add</button>{"  "}
+                                {
+                                    this.state.lineItems.map((val,index)=>{
+                                        return (<div>
+                                            <label className="badge badge-primary">product</label>
+                                            <button className='btn btn-danger btn-sm' onClick={this.handleRemovitem}>remove</button>
 
+                                            <Select value={this.state.lineItems.product} onChange={this.handleproduct}
+                                            options={this.props.product.map(e =>{
+                                                    return {value: e._id, label: e.name}
+                                                })}
+                                            />  
+                                        
+                                            
+                                            <label className="badge badge-primary">quantity</label>
+                                            <Select value={this.state.lineItems.quantity} onChange={this.handlequantity} 
+                                            options={this.state.arr.map(e =>{
+                                                    return {value: e , label: e}
+                                                })}
+                                            />
+                                            {/* <select className='form-control'  value={this.state.lineItems.quantity} onChange={this.handlequantity} name='quantity'> 
+                                                <option >select</option>
+                                                {
+                                                    this.state.arr.map(e => {
+                                                        return (
+                                                            <option value={e} key={e}>{e}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select><br/> */}
+                                        </div>)
+                                    })
+                                }
                                 <input
                                 className='btn btn-primary btn-sm col-md-8'
                                 type='submit'
-                                value='add '
+                                value='add Bill'
                                 onClick={this.handleClose}
                                 />
                             </div>
@@ -177,8 +209,6 @@ class Bills extends Component {
                 <thead>
                     <tr>
                     <th>customer name</th>
-                    
-                    <th>user</th>
                     <th>createdAt</th>
                     <th>Total Amount</th>
                     <th>quantity</th>
@@ -190,11 +220,9 @@ class Bills extends Component {
                         this.props.bill.map(e =>
                             (<tr key={e._id}>
                                 <td>{e.customer}</td>
-                                
-                                <td>{e.user}</td>
                                 <td>{e.createdAt}</td>
                                 <td>{e.total}</td>
-                                <td>{e.lineItems[0].quantity}</td>
+                                <td>{e.lineItems.map(ele => <li>{ele.quantity}</li>)}</td>
                                 <td>
                                 <AiFillDelete size={24} color='black' onClick={()=>{this.handleDelete(e._id)}} />
                                
@@ -207,7 +235,7 @@ class Bills extends Component {
                                                 <h5 style={{color : ' #4d2800'}} align='center'>
                                                 <label>id :</label>{this.state.id}<br/>
                                                 <label>date :</label>{this.state.date}<br/> 
-                                                <label>customer :</label> {this.state.customer.label}<br/>
+                                                <label>customer :</label>{this.state.customer}<br/>
                                                 <label>LineItem :</label> <ul>
                                                 {/* {this.state.lineItems.map(e=>{
                                                     return (

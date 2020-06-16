@@ -42,13 +42,14 @@ return (
     <div>  
         <Router>
             <Link to='/dummy'>dummy</Link>
-            <Link to='/' style={{ padding:'20px' ,margin : '20px'}}><WiAlien size={72} color='black'/></Link>
+            <Link to='/' align='left'  style={{ padding:'10px'}}><WiAlien size={72} color='black'/></Link>
             {
             Object.keys(this.props.login).length > 1 &&  localStorage.getItem("authToken") ? 
-            (<div>
-                
+            (<>
                 <div align='right' style={{ padding:'10px'}}>
-                <h5 style={{color : 'green'}}>{!this.state.logout && <p>you are loggedin..</p>}</h5>
+                <Link to='/login'><button onClick={this.handleLogout} className='btn btn-outline-danger btn-sm'>Log out</button></Link>
+                </div>
+                <div align='right' style={{float:'right', margin:'10px'}}>
                 <Link to='#'>
                     <div>
                         <RiAccountCircleLine size={32} color='black' onClick={this.handleClose1}/>
@@ -74,10 +75,9 @@ return (
                         </Modal>
                     </div>
                 </Link>
+                <h5 style={{color : 'green'}}>{!this.state.logout && <p>you are loggedin..</p>}</h5>
                 </div>
-                <div style={{float:'right', margin:'10px'}}>
-                <Link to='/login'><button onClick={this.handleLogout} className='btn btn-outline-danger btn-sm'>Log out</button></Link>
-                </div>
+                
 
                 <div align='center'>
                 <h1>welcome {this.props.login.username}</h1>
@@ -85,7 +85,7 @@ return (
                 <Link to='/products'><button className='btn btn-outline-secondary btn-sm'>Product</button></Link> | {" "}
                 <Link to='/bills'><button className='btn btn-outline-secondary btn-sm'>Bill</button></Link>
                 </div>   
-            </div>)
+            </>)
              :
             (<div>
                 <Link to='/register'><button className='btn btn-outline-secondary btn-sm'>Register</button></Link> | {" "}
