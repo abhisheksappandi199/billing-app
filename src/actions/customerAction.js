@@ -97,7 +97,7 @@ export const startRemoveCustomer = (id) =>{
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
-                    title: 'deketed sucessful',
+                    title: 'deleted sucessful',
                     showConfirmButton: false,
                     timer: 800
                   })

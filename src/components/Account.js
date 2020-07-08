@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {Modal,Button,ButtonToolbar} from 'react-bootstrap'
 import {connect} from 'react-redux'
+import Moment from 'react-moment'
 
 class MyVerticallyCenteredModal extends React.Component {
 render() {
@@ -11,19 +12,19 @@ render() {
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
-		<Modal.Header closeButton>
+			<Modal.Header closeButton>
 			<Modal.Title id="contained-modal-title-vcenter">
 					Account Details
 			</Modal.Title>
-		</Modal.Header>
+			</Modal.Header>
 			<Modal.Body>
-				<h5 style={{color : ' #4d2800'}} align='center'>
-				<label>Username :</label>{this.props.data.username} <br/>
-				<label>email :</label>{this.props.data.email}<br/> 
-				<label>businessName :</label> {this.props.data.businessName}<br/>
-				<label>address :</label>{this.props.data.address} <br/>
-				<label>createdAt :</label> {this.props.data.createdAt}<br/>
-				<label>updatedAt :</label> {this.props.data.updatedAt}<br/>
+				<h5 style={{color : ' #4d2800'}} >
+				<label className='col-md-4'>Username </label>:{" "}{this.props.data.username} <br/>
+				<label className='col-md-4'>email </label>:{" "}{this.props.data.email}<br/> 
+				<label className='col-md-4'>businessName </label> :{" "}{this.props.data.businessName}<br/>
+				<label className='col-md-4'>address </label>:{" "}{this.props.data.address} <br/>
+				<label className='col-md-4'>createdAt </label> :{" "}{<Moment format="YYYY-MM-DD HH:mm">{this.props.data.createdAt}</Moment>}<br/>
+				<label className='col-md-4'>updatedAt </label> :{" "}{<Moment format="YYYY-MM-DD HH:mm">{this.props.data.updatedAt}</Moment>}<br/>
 				</h5>     
 			</Modal.Body>
 			<Modal.Footer>
