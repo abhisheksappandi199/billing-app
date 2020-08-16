@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-
 export const get = (user) =>{
     return {type:'GET_BILL' ,payload:user}
 }
@@ -11,6 +10,7 @@ export const add = (user) =>{
 export const remove = (id) =>{
     return { type :'REMOVE_BILL' , payload:id}
 }
+
 export const startGetbill = () =>{
     return (dispatch) =>{
         axios.get('http://dct-billing-app.herokuapp.com/api/bills',{
@@ -81,3 +81,25 @@ export const startRemoveBill = (id) =>{
         })
     }
 }
+export const StartSendBill = (mobile,data) =>{
+    return (dispatch)=>{
+        axios.get(`https://sms.world-text.com/v2.0/sms/send?id=26076&key=504d3fd05d91572817758941c4e4baec&srcaddr=SMSAlert&dstaddr=91${mobile}&txt=${data}&method=PUT`)
+        .then((response)=>{
+            const user = response.data
+            if(!user.errors){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'deketed sucessful',
+                    showConfirmButton: false,
+                    timer: 800
+                  })
+                //dispatch(remove(id))
+            }
+        })
+        .catch((error)=>{
+            alert(error.message)
+        })
+    }
+}
+//

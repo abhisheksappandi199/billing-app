@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import {connect } from 'react-redux'
 import {Modal,Button,Table} from 'react-bootstrap'
-import {startGetbill,startAddBill,startRemoveBill} from '../actions/billAction'
+import {startGetbill,startAddBill,startRemoveBill,StartSendBill} from '../actions/billAction'
 import {AiFillDelete,AiFillEye} from 'react-icons/ai'
 import Select from 'react-select'
 import Moment from 'react-moment'
 import { DatePicker } from 'antd'
+import {RiMailCheckLine} from 'react-icons/ri'
 
 const { RangePicker } = DatePicker
 
@@ -128,6 +129,14 @@ class Bills extends Component {
         this.setState({bool:true,sortbyDate:false,sortbytotal:false})
         console.log(this.state.bool)    
     }
+    handleSendMessage = (obj) =>{
+        console.log(obj);
+        const mobile = this.props.customer.find(e => e._id === obj.customer).mobile
+        console.log(mobile,obj.total);
+        const bill =`Bill : total amount is ${obj.total}`
+        this.props.dispatch(StartSendBill(mobile,bill))
+    }
+
     render() {
         const date1 =this.state.datePicker[0]
         const date2 = this.state.datePicker[1]
@@ -279,6 +288,7 @@ class Bills extends Component {
                                 </Modal>
                             )
                             }
+                            <RiMailCheckLine size={24} color='black' variant="primary" onClick={()=>{this.handleSendMessage(e)}}/>
                         </td>
                     </tr>))
                     }
