@@ -202,7 +202,7 @@ class Bills extends Component {
                                             return <option value={e} key={e}>{e}</option>
                                         })}
                                     </select> {" "}
-                                    {this.state.lineItems.length !== 1  && <button className='btn btn-danger btn-sm' onClick={(e) => this.handleRemoveClick(i)}>remove</button>}{" "}
+                                    {/* {this.state.lineItems.length !== 1  && <button className='btn btn-danger btn-sm' onClick={(e) => this.handleRemoveClick(i)}>remove</button>}{" "} */}
                                     {this.state.lineItems.length - 1 === i && <button className='btn btn-success btn-sm' onClick={this.handleAddClick}>Add</button>}
                                 </div>)
                             })
