@@ -70,7 +70,7 @@ import {AiOutlineEye,AiFillEye} from "react-icons/ai"
                 value={this.state.password}
                 onChange={this.handleChange}
                 />{this.state.toggleShow ? <AiFillEye size={24} color='black' onClick={this.handleShow}/> : <AiOutlineEye size={24} color='black' onClick={this.handleShow}/>}
-                <small><Link to='/register'>Forget password?</Link></small>
+                {/* <small><Link to='/register'>Forget password?</Link></small> */}
                 <br/><br/>
                 { 
                     this.props.login.errors && (<small style={{color : 'red'}}>*{this.props.login.errors}</small>)
